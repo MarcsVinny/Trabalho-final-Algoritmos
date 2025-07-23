@@ -1,15 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Algoritmos Trabalho Final</title>
-    <link rel="stylesheet" href="style.css">
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>O Algoritmo Final</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <script src="../dist/script.js"></script>
-    <h1> oi mundo</h1>
+
+  <!-- Seção 1: Tela de boas-vindas -->
+  <section id="boasVindas">
+    <h1>O Algoritmo Final</h1>
+    <h2>Seu conhecimento é a única chance de sobreviver!</h2>
+    <h3>Um quiz de algoritmos em meio ao apocalipse zumbi</h3>
+    <button id="btnComecar" class="botao-comecar">Começar o Quiz</button>
+  </section>
+
+  <!-- Seção 2: Cadastro do jogador - inicialmente escondida -->
+  <section id="cadastro" style="display:none; margin-top: 40px;">
+    <h2>Cadastre-se para sobreviver</h2>
+
+    <label for="nomeJogador">Nome:</label>
+    <input type="text" id="nomeJogador" placeholder="Digite seu nome" />
+
+    <label for="idadeJogador">Idade:</label>
+    <input type="number" id="idadeJogador" placeholder="Digite sua idade" min="5" max="120" />
+
+    <label for="generoJogador">Gênero:</label>
+    <select id="generoJogador">
+      <option value="">Selecione</option>
+      <option value="masculino">Masculino</option>
+      <option value="feminino">Feminino</option>
+      <option value="outro">Outro</option>
+      <option value="indefinido">Prefiro não dizer</option>
+    </select>
+
+    <button id="btnCadastrar" class="botao-comecar">Iniciar Jornada</button>
+
+    <p id="mensagem" style="color: #ff6666; font-weight: bold; margin-top: 20px;"></p>
+  </section>
+
+  
+
+<!-- Seção 3: Quiz de perguntas -->
+<section id="quiz" style="display:none; margin-top: 40px;">
+  <h2>Quiz Apocalipse Zumbi - Teste seus conhecimentos</h2>
+  <div id="perguntaContainer">
+    <p id="perguntaTexto"></p>
+    <div id="opcoes"></div>
+  </div>
+  <p id="vidasRestantes" style="font-weight: bold; color: #ff4444; margin-top: 20px;"></p>
+</section>
+
+
+  <script src="../dist/script.js"></script>
 </body>
 </html>
-a
