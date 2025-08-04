@@ -6,7 +6,7 @@ class TarefaPrazo {
   dataEntrega: string;
   concluida: boolean;
 
-  // Construtor: define os dados principais de uma tarefa com prazo
+  // Construtor que define os dados principais de uma tarefa com prazo
   constructor(desc: string, nivel: string, data: string) {
     this.descricao = desc;
     this.nivelDificuldade = nivel;
@@ -97,7 +97,7 @@ class TarefaBD {
       return "🎉 Nenhuma pendência! Aproveite seu tempo.";
     }
 
-    // Função para reformatar data para ordenação (aaaa-mm-dd)
+    // Função que reformata data para ordenação (aaaa-mm-dd)
     function formatarData(data: string): string {
       let partes: string[] = data.split("/");
       return `${partes[2]}-${partes[1]}-${partes[0]}`;
@@ -160,7 +160,7 @@ Escolha uma opção:`;
     let opcao: string | null = prompt(menu);
     if (opcao === null) break;
 
-    // Adicionar nova tarefa
+    // Adiciona nova tarefa
     if (opcao === "1") {
       let tipo: string | null = prompt("Qual o tipo de tarefa você deseja adicionar?\n1 - Com prazo\n2 - Rotina");
 
@@ -187,17 +187,17 @@ Escolha uma opção:`;
       }
     }
 
-    // Mostrar pendências mais urgentes
+    // Mostra pendências mais urgentes
     else if (opcao === "2") {
       alert(bd.foco());
     }
 
-    // Listar todas as tarefas cadastradas
+    // Lista todas as tarefas cadastradas
     else if (opcao === "3") {
       alert("📋 Tarefas:\n" + bd.listar());
     }
 
-    // Marcar tarefa como concluída
+    // Marca tarefa como concluída
     else if (opcao === "4") {
       if (bd.tarefas.length === 0) {
         alert("⚠️ Nenhuma tarefa para concluir.");
@@ -209,7 +209,7 @@ Escolha uma opção:`;
       }
     }
 
-    // Remover tarefa do sistema
+    // Remove tarefa do sistema
     else if (opcao === "5") {
       if (bd.tarefas.length === 0) {
         alert("⚠️ Nenhuma tarefa para remover.");
@@ -221,7 +221,7 @@ Escolha uma opção:`;
       }
     }
 
-    // Encerrar o programa
+    // Encerra o programa
     else if (opcao === "6") {
       sair = true;
       alert("👋 Até a próxima!");
