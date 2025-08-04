@@ -1,171 +1,114 @@
-class Sobrevivente {
-  nome: string;
-  vidas: number;
-  genero: string;
-  errosCometidos: number;
-  status: string;
-  idade: number;
+class Tarefa {
+  descricao: string;
+  nivelDificuldade: string;
+  data: string;
+  concluida: boolean;
 
-  constructor(
-    nome: string,
-    idade: number,
-    genero: string,
-    vidas: number,
-    errosCometidos: number,
-    status: string
-  ) {
-    this.nome = nome;
-    this.idade = idade;
-    this.genero = genero;
-    this.vidas = vidas;
-    this.errosCometidos = errosCometidos;
-    this.status = status;
+  constructor(desc: string, nivel: string, data: string) {
+    this.descricao = desc;
+    this.nivelDificuldade = nivel;
+    this.data = data;
+    this.concluida = false;
   }
 }
 
-window.onload = function () {
-  let secBoasVindas = document.getElementById("boasVindas") as HTMLElement;
-  let secCadastro = document.getElementById("cadastro") as HTMLElement;
-  let secQuiz = document.getElementById("quiz") as HTMLElement;
+class TarefaBD {
+  tarefas: Tarefa[] = [];
 
-  let btnComecar = document.getElementById("btnComecar") as HTMLButtonElement;
-  let btnCadastrar = document.getElementById("btnCadastrar") as HTMLButtonElement;
-
-  let mensagem = document.getElementById("mensagem") as HTMLElement;
-
-  // Variáveis para controle do quiz
-  let personagem: Sobrevivente | null = null;
-  let perguntaAtual = 0;
-
-  btnComecar.onclick = function () {
-    secBoasVindas.style.display = "none";
-    secCadastro.style.display = "block";
-  };
-
-  btnCadastrar.onclick = function () {
-    let nomeInput = (document.getElementById("nomeJogador") as HTMLInputElement)
-      .value.trim();
-    let idadeInput = (document.getElementById("idadeJogador") as HTMLInputElement)
-      .value.trim();
-    let generoInput = (document.getElementById("generoJogador") as HTMLSelectElement)
-      .value;
-
-    // Validações simples
-    if (nomeInput === "" || !isNaN(Number(nomeInput))) {
-      mensagem.textContent = "Nome inválido. Por favor, digite um nome válido.";
-      return;
-    }
-    let idadeNum = parseInt(idadeInput);
-    if (isNaN(idadeNum) || idadeNum < 5 || idadeNum > 120) {
-      mensagem.textContent = "Idade inválida. Informe uma idade entre 5 e 120 anos.";
-      return;
-    }
-    if (generoInput === "") {
-      mensagem.textContent = "Por favor, selecione um gênero.";
-      return;
-    }
-
-    mensagem.textContent = "";
-
-    personagem = new Sobrevivente(nomeInput, idadeNum, generoInput, 3, 0, "vivo");
-
-    alert(
-      `Bem-vindo, ${personagem.nome}! Você tem ${personagem.vidas} vidas. Prepare-se para o apocalipse zumbi.`
-    );
-
-    secCadastro.style.display = "none";
-    secQuiz.style.display = "block";
-
-    mostrarPergunta();
-  };
-
-  // Array de perguntas do quiz
-  let perguntas = [
-    {
-      texto: "O que é uma variável em programação?",
-      opcoes: [
-        "Um espaço para armazenar dados",
-        "Um tipo de dado específico",
-        "Um erro no código",
-        "Um comentário no programa",
-      ],
-      correta: 0,
-    },
-    {
-      texto: "Qual estrutura usamos para tomar decisões em TypeScript?",
-      opcoes: ["for", "if/else", "while", "function"],
-      correta: 1,
-    },
-    {
-      texto: "Como declaramos uma função em TypeScript?",
-      opcoes: [
-        "function minhaFuncao() {}",
-        "def minhaFuncao() {}",
-        "func minhaFuncao() {}",
-        "fun minhaFuncao() {}",
-      ],
-      correta: 0,
-    },
-    // ... você pode adicionar mais perguntas aqui ...
-  ];
-
-  // Função para mostrar a pergunta atual
-  function mostrarPergunta() {
-    if (!personagem) return;
-
-    if (perguntaAtual >= perguntas.length) {
-      alert("Parabéns! Você sobreviveu ao apocalipse zumbi e passou na prova!");
-      // Pode reiniciar o jogo ou fazer algo aqui
-      return;
-    }
-
-    let pergunta = perguntas[perguntaAtual];
-    let perguntaTexto = document.getElementById("perguntaTexto") as HTMLElement;
-    let opcoesDiv = document.getElementById("opcoes") as HTMLElement;
-    let vidasRestantes = document.getElementById("vidasRestantes") as HTMLElement;
-
-    perguntaTexto.textContent = pergunta.texto;
-    vidasRestantes.textContent = `Vidas restantes: ${personagem.vidas}`;
-
-    // Limpa opções antigas
-    opcoesDiv.innerHTML = "";
-
-    // Cria botão para cada opção
-    pergunta.opcoes.forEach(function (opcao, index) {
-      let botaoOpcao = document.createElement("button");
-      botaoOpcao.textContent = opcao;
-      botaoOpcao.style.margin = "8px";
-      botaoOpcao.onclick = function () {
-        verificarResposta(index);
-      };
-      opcoesDiv.appendChild(botaoOpcao);
-    });
+  adicionar(t: Tarefa) {
+    this.tarefas.push(t);
   }
 
-  // Função para verificar a resposta escolhida
-  function verificarResposta(indiceEscolhido: number) {
-    if (!personagem) return;
+  listar(): string {
+    if (this.tarefas.length === 0) return "📭 Nenhuma tarefa ainda.";
+    return this.tarefas.map((t, i) =>
+      `${i + 1}. ${t.descricao} (${t.nivelDificuldade}) - ${t.data} - ${t.concluida ? "✅" : "⌛"}`
+    ).join("\n");
+  }
 
-    let pergunta = perguntas[perguntaAtual];
+  concluir(pos: number) {
+    if (pos >= 0 && pos < this.tarefas.length) {
+      this.tarefas[pos].concluida = true;
+    }
+  }
 
-    if (indiceEscolhido === pergunta.correta) {
-      alert("Resposta correta! Você sobrevive por enquanto...");
-      perguntaAtual++;
-      mostrarPergunta();
-    } else {
-      personagem.vidas--;
-      personagem.errosCometidos++;
-      if (personagem.vidas <= 0) {
-        alert(
-          `Você foi devorado pelos zumbis após ${personagem.errosCometidos} erros... Fim de jogo.`
-        );
-        window.location.reload();
-      } else {
-        alert(
-          `Resposta errada! Você perdeu uma vida. Vidas restantes: ${personagem.vidas}`
-        );
-        mostrarPergunta();
+  remover(pos: number) {
+    if (pos >= 0 && pos < this.tarefas.length) {
+      this.tarefas.splice(pos, 1);
+    }
+  }
+
+  proximaPendente(): Tarefa | null {
+    return this.tarefas.find(t => !t.concluida) || null;
+  }
+}
+
+function executarAgenda() {
+  let bd = new TarefaBD();
+  let sair = false;
+
+  while (!sair) {
+    let menu = `
+🧠 AGENDA PARA TDAH
+1 - Adicionar tarefa
+2 - Listar tarefas
+3 - Concluir tarefa
+4 - Remover tarefa
+5 - Foco (mostrar próxima)
+0 - Sair
+Escolha uma opção:`;
+    let opcao = prompt(menu);
+
+    if (opcao === null) break;
+
+    if (opcao === "1") {
+      let desc = prompt("Descrição:");
+      let nivel = prompt("Dificuldade (leve, médio, difícil):");
+      let data = prompt("Data:");
+      if (desc && nivel && data) {
+        bd.adicionar(new Tarefa(desc, nivel, data));
+        alert("✅ Tarefa adicionada!");
       }
     }
+
+    else if (opcao === "2") {
+      alert("📋 Tarefas:\n" + bd.listar());
+    }
+
+    else if (opcao === "3") {
+      let pos = Number(prompt("Número da tarefa a concluir:")) - 1;
+      bd.concluir(pos);
+      alert("✅ Concluída!");
+    }
+
+    else if (opcao === "4") {
+      let pos = Number(prompt("Número da tarefa a remover:")) - 1;
+      bd.remover(pos);
+      alert("🗑️ Removida!");
+    }
+
+    else if (opcao === "5") {
+      let foco = bd.proximaPendente();
+      if (foco) {
+        let confirmar = prompt(`🎯 FOCO:\n${foco.descricao} (${foco.nivelDificuldade}) - ${foco.data}\nMarcar como concluída? (s/n)`);
+        if (confirmar?.toLowerCase() === "s") {
+          foco.concluida = true;
+          alert("✨ Tarefa concluída. Você está indo muito bem!");
+        }
+      } else {
+        alert("🎉 Nenhuma pendência! Aproveite seu tempo.");
+      }
+    }
+
+    else if (opcao === "0") {
+      sair = true;
+      alert("👋 Até mais!");
+    }
+
+    else {
+      alert("⚠️ Opção inválida.");
+    }
   }
-};
+}
+
+executarAgenda();
