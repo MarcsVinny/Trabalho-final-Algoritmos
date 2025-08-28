@@ -1,11 +1,55 @@
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Foco Fácil</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧠 Foco Fácil</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script src="../dist/script.js"></script>
+  <div class="container">
+    <h1>🧠 Foco Fácil</h1>
+    <p id="welcome-text">Bem-vindo(a) à sua agenda de tarefas!</p>
+
+    <!-- Formulário para adicionar tarefas -->
+    <form id="form-tarefa">
+      <h2>Adicionar Nova Tarefa</h2>
+
+      <label>Tipo:</label>
+      <select id="tipo-tarefa" required>
+        <option value="prazo">Com Prazo</option>
+        <option value="rotina">Rotina</option>
+      </select>
+
+      <label>Descrição:</label>
+      <input type="text" id="desc" placeholder="Ex: Estudar TypeScript" required>
+
+      <label>Nível de Dificuldade:</label>
+      <select id="nivel" required>
+        <option value="Leve">Leve</option>
+        <option value="Médio">Médio</option>
+        <option value="Difícil">Difícil</option>
+      </select>
+
+      <!-- Campos adicionais dinâmicos -->
+      <div id="extra-fields"></div>
+
+      <button type="submit">➕ Adicionar Tarefa</button>
+    </form>
+
+    <!-- Seção de tarefas -->
+    <div class="tarefas-container">
+      <h2>📋 Minhas Tarefas</h2>
+      <ul id="lista-tarefas"></ul>
+    </div>
+
+    <!-- Botão de foco -->
+    <button id="foco-btn" class="foco-btn">🎯 Ver Tarefas Urgentes</button>
+    <div id="foco-output"></div>
+  </div>
+
+  <script src="../dist/script.js"></script>
 </body>
 </html>
